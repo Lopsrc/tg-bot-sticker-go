@@ -1,0 +1,8 @@
+env: "local"
+path_env: "config/local.env"
+storage:
+  # hostname: "localhost" 
+  hostname: "redis"   # For docker
+  port: 6379
+  password:
+  timeout: 10h
