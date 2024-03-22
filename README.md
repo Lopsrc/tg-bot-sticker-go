@@ -33,6 +33,8 @@ vim config/local.yaml
 > hostname: "localhost" 
 > hostname: "redis"   # For docker
 
+### Running
+
 Running on a local host:
 ```
 # start redis.
