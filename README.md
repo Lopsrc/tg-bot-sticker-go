@@ -7,10 +7,13 @@ This bot is able to create sticker sets, add to existing ones, receive sticker s
 
 ### Technologies
 
->redis https://redis.io/docs/install/install-redis/
->docker https://docs.docker.com/get-docker/
->docker-compose https://docs.docker.com/compose/install/
->golang https://go.dev/doc/install
+>Redis: https://redis.io/docs/install/install-redis/
+>
+>Docker: https://docs.docker.com/get-docker/
+>
+>Docker-compose: https://docs.docker.com/compose/install/
+>
+>Golang: https://go.dev/doc/install
 
 ## Using
 
