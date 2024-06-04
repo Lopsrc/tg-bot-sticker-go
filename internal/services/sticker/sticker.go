@@ -97,15 +97,12 @@ func (s *Sticker) Update(ctx context.Context, msg *tele.Message, b *tele.Bot) (c
 	// Deserialize the user.
 	err = user.Deserialize()
 	if err != nil {
-		s.log.Error("Update. deserialize: %v", err)
+		s.log.Error(fmt.Sprintf("Update: deserialize: %v", err))
 		return actions.Actions{}, err
 	}
-	// Get sticker set. If the set not exist - return error.
-	st, err := b.StickerSet(prepareName(msg.Text, user.UserName, b.Me.Username))
-	if err != nil {
-		s.log.Error("Get. get sticker set: %w", err)
-		return actions.Actions{}, err
-	}
+	s.log.Debug("Sticker Set")
+	
+	s.log.Debug("Its ok")
 	// Detect the action.
 	if user.IsCreate || user.IsAdd {
 		if user.IterAction == 1 {
@@ -126,12 +123,12 @@ func (s *Sticker) Update(ctx context.Context, msg *tele.Message, b *tele.Bot) (c
 	// Serialize the user.
 	err = user.Serialize()
 	if err != nil {
-		s.log.Error("Update. serialize: %v", err)
+		s.log.Error(fmt.Sprintf("Update. serialize: %v", err))
 		return actions.Actions{}, err
 	}
 	// Update the user in the repository.
 	if err := s.r.Update(ctx, user.ID, user.ByteUser); err != nil {
-		s.log.Error("update user: %w", err)
+		s.log.Error(fmt.Sprintf("update user: %v", err))
 		return actions.Actions{}, err
 	}
 	// Return the code of action.
@@ -142,6 +139,12 @@ func (s *Sticker) Update(ctx context.Context, msg *tele.Message, b *tele.Bot) (c
 	}else if user.IsGet {
 		code.Code = GetStickerSet
 	}else if user.IsDelete {
+		// Get sticker set. If the set not exist - return error.
+		st, err := b.StickerSet(prepareName(msg.Text, user.UserName, b.Me.Username))
+		if err != nil {
+			s.log.Error(fmt.Sprintf("Get. get sticker set: %v", err))
+			return actions.Actions{}, err
+		}
 		// Send a sticker from the set.
 		b.Send(&user, &st.Stickers[len(st.Stickers)-1])
 		code.Code = DeleteSticker
